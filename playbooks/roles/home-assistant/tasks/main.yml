@@ -25,10 +25,6 @@
         mode: '0440'
         force: no
 
-    - name: Install os-agent
-      apt:
-        deb: /srv/downloads/os-agent.deb
-
     - name: Download homeassistant-supervised.deb
       get_url:
         url: https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb
@@ -36,8 +32,17 @@
         mode: '0440'
         force: no
 
+    - name: Download hucs
+      get_url:
+        url: https://get.hacs.xyz
+        dest: /srv/downloads/hucs-install.sh
+        mode: '0755'
+        force: no
+
+    - name: Install os-agent
+      apt:
+        deb: /srv/downloads/os-agent.deb
+
     - name: Install homeassistant
       apt:
         deb: /srv/downloads/homeassistant-supervised.deb
-
-#hucs https://get.hacs.xyz и инсталлим скрипт

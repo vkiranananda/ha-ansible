@@ -6,4 +6,4 @@
     - base
     - docker
     - home-assistant
-    - wireguard
+#    - wireguard
