@@ -1,4 +1,0 @@
-configs/virtual-kiran
-hosts
-playbooks/virtual-kiran.yml
-.gitignore
