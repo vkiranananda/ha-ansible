@@ -1,0 +1,13 @@
+---
+    - name: Set timezone to Europe/Moscow
+      community.general.timezone:
+        name: Europe/Moscow
+
+    - name: Install base packages
+      apt:
+        pkg:
+          - python3-pip
+          - python3-setuptools
+          - python3-virtualenv
+        update_cache: yes
+

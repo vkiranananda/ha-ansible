@@ -1,0 +1,43 @@
+---
+    - name: Install required system packages
+      apt:
+        update_cache: yes
+        pkg:
+          - network-manager
+          - jq
+          - wget
+          - curl
+          - udisks2
+          - libglib2.0-bin
+          - dbus
+          - net-tools
+
+    - name: Create a directory downloads
+      ansible.builtin.file:
+        path: /srv/downloads
+        state: directory
+        mode: '0750'
+
+    - name: Download os-agent
+      get_url:
+        url: https://github.com/home-assistant/os-agent/releases/download/1.2.2/os-agent_1.2.2_linux_x86_64.deb
+        dest: /srv/downloads/os-agent.deb
+        mode: '0440'
+        force: no
+
+    - name: Install os-agent
+      apt:
+        deb: /srv/downloads/os-agent.deb
+
+    - name: Download homeassistant-supervised.deb
+      get_url:
+        url: https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb
+        dest: /srv/downloads/homeassistant-supervised.deb
+        mode: '0440'
+        force: no
+
+    - name: Install homeassistant
+      apt:
+        deb: /srv/downloads/homeassistant-supervised.deb
+
+#hucs https://get.hacs.xyz и инсталлим скрипт

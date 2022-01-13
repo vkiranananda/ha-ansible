@@ -1,0 +1,14 @@
+---
+    - name: Copy wireguard configs
+      copy: src=../configs/{{ inventory_hostname }}/wireguard dest=/etc mode='0750'
+      notify:
+        - restart wireguard
+
+    - name: Install wireguard
+      apt:
+        pkg:
+          - wireguard
+        update_cache: yes
+
+    - name: Enable wireguard service
+      service: enabled=yes name=wg-quick@wg0

@@ -1,0 +1,55 @@
+---
+    - name: Install required system packages
+      apt:
+        update_cache: yes
+        pkg:
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        state: present
+
+    - name: Work out the distribution
+      command: lsb_release -cs
+      register: release
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ release.stdout }} stable"
+        state: present
+        update_cache: yes
+
+    - name: Install docker-ce
+      apt:
+        force: True
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+      notify:
+        - restart docker
+
+    - name: Copy configs
+      template:
+        src: daemon.json
+        dest: /etc/docker/daemon.json
+        mode: '0640'
+      notify:
+        - restart docker
+
+    - name: Install docker-compose
+      shell: curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-Linux-x86_64" -o /usr/local/bin/docker-compose
+      args:
+        creates: /usr/local/bin/docker-compose
+
+    - file:
+        path: /usr/local/bin/docker-compose
+        mode: 0755
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
