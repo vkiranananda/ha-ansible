@@ -1,19 +1,16 @@
 ---
-#    vars:
-#      - os_agent_arch
-
-#    - name: Install required system packages
-#      apt:
-#        update_cache: yes
-#        pkg:
-#          - network-manager
-#          - jq
-#          - wget
-#          - curl
-#          - udisks2
-#          - libglib2.0-bin
-#          - dbus
-#          - net-tools
+    - name: Install required system packages
+      apt:
+        update_cache: yes
+        pkg:
+          - network-manager
+          - jq
+          - wget
+          - curl
+          - udisks2
+          - libglib2.0-bin
+          - dbus
+          - net-tools
 
     - name: Create a directory downloads
       ansible.builtin.file:
@@ -22,15 +19,10 @@
         mode: '0750'
 
 
-
-
-#os-agent_1.2.2_linux_armv7.deb
     - name: Get architecture
       shell: dpkg --print-architecture
       register: deb_architecture
 
-#    - name: set default os_agent_arch
-#      set_fact: os_agent_arch = {{ deb_architecture.stdout }}
     - name: set default os_agent_arch
       set_fact:
         os_agent_arch: "{{ deb_architecture.stdout }}"
