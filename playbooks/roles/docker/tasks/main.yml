@@ -17,9 +17,13 @@
       command: lsb_release -cs
       register: release
 
+    - name: Get architecture
+      shell: dpkg --print-architecture
+      register: deb_architecture
+
     - name: Add Docker Repository
       apt_repository:
-        repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ release.stdout }} stable"
+        repo: "deb [arch={{deb_architecture.stdout}}] https://download.docker.com/linux/debian {{ release.stdout }} stable"
         state: present
         update_cache: yes
 
