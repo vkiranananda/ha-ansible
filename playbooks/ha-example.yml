@@ -1,9 +1,7 @@
-# crm-prod устанавливаем структуру
 ---
-
 - hosts: ha-example
   roles:
-    - base
+#    - base
     - docker
-    - home-assistant
-#    - wireguard
+#    - home-assistant
+    - wireguard

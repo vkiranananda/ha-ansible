@@ -34,25 +34,9 @@
           - docker-ce
           - docker-ce-cli
           - containerd.io
+          - docker-compose
       notify:
         - restart docker
-
-    - name: Copy configs
-      template:
-        src: daemon.json
-        dest: /etc/docker/daemon.json
-        mode: '0640'
-      notify:
-        - restart docker
-
-    - name: Install docker-compose
-      shell: curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-Linux-x86_64" -o /usr/local/bin/docker-compose
-      args:
-        creates: /usr/local/bin/docker-compose
-
-    - file:
-        path: /usr/local/bin/docker-compose
-        mode: 0755
 
     - name: Install Docker Module for Python
       pip:
